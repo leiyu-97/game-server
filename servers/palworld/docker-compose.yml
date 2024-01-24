@@ -20,7 +20,6 @@ services:
       - SERVER_PASSWORD=${PAL_SERVER_PASSWORD}
       - ADMIN_PASSWORD=${PAL_ADMIN_PASSWORD}
     memswap_limit: 8g
-    restart: always
     user: "root:root"
   palworld-backup:
     build: ../../utils/backup
