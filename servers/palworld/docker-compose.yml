@@ -1,0 +1,34 @@
+version: '3.9'
+services:
+  palworld:
+    build: .
+    container_name: palworld
+    network_mode: bridge
+    ports:
+      - "8211:8211/udp"
+    volumes:
+      - ./data:/palworld:Z
+      - ./PalWorldSettings.ini:/PalWorldSettings.ini:Z
+    deploy:
+      resources:
+        limits:
+          cpus: '1.7'
+          memory: 3g
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - SERVER_PASSWORD=${PAL_SERVER_PASSWORD}
+      - ADMIN_PASSWORD=${PAL_ADMIN_PASSWORD}
+    memswap_limit: 8g
+    restart: always
+    user: "root:root"
+  palworld-backup:
+    build: ../../utils/backup
+    container_name: palworld-backup
+    volumes:
+      - ./data/Pal/Saved/SaveGames:/source:Z
+      - ./backup:/target:Z
+    environment:
+      SCHEDULE: '*/30 * * * *'
+      MAX_BACKUPS: 6
+    user: "root:root"

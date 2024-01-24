@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+  teamspeak:
+    build: .
+    ports:
+      - 9987:9987/udp
+      - 10011:10011/tcp
+      - 30033:30033/tcp
+    volumes:
+      - ./data:/home/teamspeak/teamspeak
