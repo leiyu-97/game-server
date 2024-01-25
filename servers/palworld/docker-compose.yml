@@ -9,17 +9,15 @@ services:
     volumes:
       - ./data:/palworld:Z
       - ./PalWorldSettings.ini:/PalWorldSettings.ini:Z
-    deploy:
-      resources:
-        limits:
-          cpus: '1.7'
-          memory: 3g
     environment:
       - PGID=1000
       - PUID=1000
       - SERVER_PASSWORD=${PAL_SERVER_PASSWORD}
       - ADMIN_PASSWORD=${PAL_ADMIN_PASSWORD}
     memswap_limit: 8g
+    cpus: 1.7
+    mem_limit: 3g
+    mem_swappiness: 100
     user: "root:root"
   palworld-backup:
     build: ../../utils/backup
