@@ -31,3 +31,13 @@ services:
       SCHEDULE: '*/30 * * * *'
       MAX_BACKUPS: 6
     user: "root:root"
+  palworld-daily-backup:
+    build: ../../utils/backup
+    container_name: palworld-daily-backup
+    volumes:
+      - ./data/Pal/Saved/SaveGames:/source:Z
+      - ./dailyBackup:/target:Z
+    environment:
+      SCHEDULE: '0 18 * * *'
+      MAX_BACKUPS: 14
+    user: "root:root"
