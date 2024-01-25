@@ -28,8 +28,7 @@ services:
       - ./backup:/target:Z
     environment:
       SCHEDULE: '*/30 * * * *'
-      MAX_BACKUPS: 6
-      TZ: China/Shanghai
+      MAX_BACKUPS: 16
     user: "root:root"
   palworld-daily-backup:
     build: ../../utils/backup
@@ -38,7 +37,6 @@ services:
       - ./data/Pal/Saved/SaveGames:/source:Z
       - ./dailyBackup:/target:Z
     environment:
-      SCHEDULE: '0 12 * * *'
+      SCHEDULE: '0 1 * * *'
       MAX_BACKUPS: 14
-      TZ: China/Shanghai
     user: "root:root"

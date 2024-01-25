@@ -1,6 +1,5 @@
 #!/bin/bash
 
-TZ=China/Shanghai
 # 定义备份目录和文件
 BACKUP_DIR="/target"
 SOURCE_DIR="/source"
