@@ -2,6 +2,7 @@ version: '3.9'
 services:
   teamspeak:
     build: .
+    container_name: teamspeak
     ports:
       - 9987:9987/udp
       - 10011:10011/tcp
