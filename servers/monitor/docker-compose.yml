@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: monitor_node_exporter
+    hostname: monitor_node_exporter
+    command:
+      - "--path.rootfs=/host"
+    pid: host
+    restart: unless-stopped
+    volumes:
+      - /:/host:ro,rslave
+    ports:
+      - 9100:9100/tcp
+  docker_stats_exporter:
+    image: wywywywy/docker_stats_exporter
+    container_name: monitor_docker_stats_exporter
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 9487:9487/tcp
+  prometheus:
+    image: prom/prometheus
+    container_name: monitor_prometheus
+    ports:
+      - 9090:9090/tcp
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus:/prometheus
+    user: root:root
+    environment:
+      - PGID=1000
+      - PUID=1000
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  grafana:
+    image: grafana/grafana-enterprise
+    container_name: monitor_grafana
+    ports:
+      - 3000:3000/tcp
+    volumes:
+      - ./grafana:/var/lib/grafana
+    environment:
+      - PGID=1000
+      - PUID=1000
+    user: root:root
+networks:
+  monitor:
+    driver: bridge
