@@ -8,5 +8,8 @@
 ```shell
 systemctl restart docker
 ```
+
+Grafana Data Source 填 http://monitor_prometheus:9090
+
 Grafana 推荐 dashboard:
 13331

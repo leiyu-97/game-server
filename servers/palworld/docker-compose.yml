@@ -15,9 +15,8 @@ services:
       - PUID=1000
       - SERVER_PASSWORD=${PAL_SERVER_PASSWORD}
       - ADMIN_PASSWORD=${PAL_ADMIN_PASSWORD}
-    memswap_limit: 8g
-    cpus: 1.7
-    mem_limit: 3g
+    cpus: 3.5
+    mem_limit: 14g
     mem_swappiness: 100
     user: "root:root"
   palworld-backup:
