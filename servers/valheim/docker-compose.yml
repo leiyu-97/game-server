@@ -1,0 +1,25 @@
+version: '3.9'
+services:
+  valheim:
+    container_name: valheim
+    image: ghcr.io/lloesche/valheim-server
+    cap_add:
+      - sys_nice
+    volumes:
+      - ./config:/config
+      - ./data:/opt/valheim
+      - ./backups:/backups
+    ports:
+      - "2456-2458:2456-2458/udp"
+      - "9001:9001/tcp"
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - SERVER_PASS=${VALHEIM_PASSWORD}
+      - BACKUPS=true
+      - BACKUPS_DIRECTORY=/backups
+    restart: always
+    stop_grace_period: 2m
+    cpus: 3
+    mem_limit: 14g
+    mem_swappiness: 100
