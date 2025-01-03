@@ -21,27 +21,6 @@ services:
     mem_limit: 3.5g
     mem_swappiness: 100
 
-  enshrouded-backup:
-    build: ../../utils/backup
-    container_name: enshrouded-backup
-    volumes:
-      - ./data/savegame:/source:Z
-      - ./backup:/target:Z
-    environment:
-      SCHEDULE: '*/30 * * * *'
-      MAX_BACKUPS: 16
-    user: "root:root"
-  enshrouded-daily-backup:
-    build: ../../utils/backup
-    container_name: enshrouded-daily-backup
-    volumes:
-      - ./data/savegame:/source:Z
-      - ./dailyBackup:/target:Z
-    environment:
-      SCHEDULE: '0 1 * * *'
-      MAX_BACKUPS: 14
-    user: "root:root"
-
 volumes:
   enshrouded-data:
     driver: local
