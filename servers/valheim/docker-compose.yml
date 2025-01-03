@@ -15,7 +15,7 @@ services:
     environment:
       - PGID=1000
       - PUID=1000
-      - SERVER_PASS=${VALHEIM_PASSWORD}
+      - SERVER_PASS=${SERVER_PASSWORD}
       - BACKUPS=true
       - BACKUPS_DIRECTORY=/backups
     restart: always

@@ -1,0 +1,51 @@
+version: '3.9'
+services:
+  enshrouded:
+    container_name: enshrouded
+    image: sknnr/enshrouded-dedicated-server:latest
+    ports:
+      - "15636:15636/udp"
+      - "15637:15637/udp"
+    environment:
+      - SERVER_NAME=Astral
+      - SERVER_PASSWORD=${SERVER_PASSWORD}
+      - GAME_PORT=15636
+      - QUERY_PORT=15637
+      - SERVER_SLOTS=16
+      - SERVER_IP=0.0.0.0
+    volumes:
+      - enshrouded-data:/home/steam/enshrouded
+    restart: always
+    stop_grace_period: 2m
+    cpus: 1.7
+    mem_limit: 3.5g
+    mem_swappiness: 100
+
+  enshrouded-backup:
+    build: ../../utils/backup
+    container_name: enshrouded-backup
+    volumes:
+      - ./data/savegame:/source:Z
+      - ./backup:/target:Z
+    environment:
+      SCHEDULE: '*/30 * * * *'
+      MAX_BACKUPS: 16
+    user: "root:root"
+  enshrouded-daily-backup:
+    build: ../../utils/backup
+    container_name: enshrouded-daily-backup
+    volumes:
+      - ./data/savegame:/source:Z
+      - ./dailyBackup:/target:Z
+    environment:
+      SCHEDULE: '0 1 * * *'
+      MAX_BACKUPS: 14
+    user: "root:root"
+
+volumes:
+  enshrouded-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${DIR}/data
+      o: bind
