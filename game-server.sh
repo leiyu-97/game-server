@@ -79,7 +79,7 @@ shell)
   docker exec -ti $NAME /bin/bash
   ;;
 logs)
-  docker compose $COMMON_PARAMS logs -t -f
+  docker compose $COMMON_PARAMS logs -t -f –tail=100
   ;;
 *)
   usage
