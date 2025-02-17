@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+  ztncui:
+    container_name: ztncui
+    image: keynetworks/ztncui
+    volumes:
+      - ./ztncui:/opt/key-networks/ztncui/etc/
+      - ./zt1:/var/lib/zerotier-one/
+    ports:
+      - "3443:3443/tcp"
