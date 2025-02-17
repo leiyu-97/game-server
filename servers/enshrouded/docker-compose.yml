@@ -13,6 +13,7 @@ services:
       - QUERY_PORT=15637
       - SERVER_SLOTS=16
       - SERVER_IP=0.0.0.0
+      - EXTERNAL_CONFIG=1
     volumes:
       - enshrouded-data:/home/steam/enshrouded
     restart: always
