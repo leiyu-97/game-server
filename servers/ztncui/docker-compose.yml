@@ -11,3 +11,6 @@ services:
       - 3000:3000
     environment:
       - HTTP_ALL_INTERFACES=yes
+      - ZTNCUI_PASSWD=${ADMIN_PASSWORD}
+      - MYADDR=${SERVER_IP}
+      - NODE_ENV=production
