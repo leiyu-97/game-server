@@ -9,6 +9,8 @@ services:
       - ./data:/factorio
       - ./backups:/backups
       - ./server-settings.json:/server-settings.json
+    environment:
+      - DLC_SPACE_AGE=false
     restart: always
     stop_grace_period: 2m
     cpus: 1.7
