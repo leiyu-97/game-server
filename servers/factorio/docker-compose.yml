@@ -9,9 +9,12 @@ services:
       - "./data:/factorio"
       - "./server-settings.json:/server-settings.json"
     environment:
+      - PUID=1000
+      - PGID=1000
       - PRESET=rich-resources
       - DLC_SPACE_AGE=false
       - SERVER_PASSWORD=${SERVER_PASSWORD}
+    user: "root:root"
     restart: always
     stop_grace_period: 2m
     cpus: 1.7
