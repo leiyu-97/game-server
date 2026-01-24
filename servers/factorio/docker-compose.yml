@@ -1,19 +1,20 @@
-version: '2'
+version: "2"
 services:
   factorio:
     image: factoriotools/factorio:latest
     ports:
-     - 34197:34197/udp
-     - 27015:27015/tcp
+      - 34197:34197/udp
+      - 27015:27015/tcp
     volumes:
-     - "./data:/factorio"
+      - "./data:/factorio"
+      - "./server-settings.json:/server-settings.json"
     environment:
-     - PUID=1000
-     - PGID=1000
-     - PRESET=rich-resources
-     - DLC_SPACE_AGE=true
+      - PRESET=rich-resources
+      - DLC_SPACE_AGE=false
+      - SERVER_PASSWORD=${SERVER_PASSWORD}
     restart: always
     stop_grace_period: 2m
     cpus: 1.7
     mem_limit: 14g
     mem_swappiness: 100
+    entrypoint: /bin/sh -c "mkdir -p /factorio/config && envsubst < /server-settings.json > /factorio/config/server-settings.json && exec /docker-entrypoint.sh"
