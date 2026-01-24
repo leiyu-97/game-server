@@ -1,16 +1,17 @@
-version: '3.9'
+version: '2'
 services:
   factorio:
-    image: factoriotools/factorio
+    image: factoriotools/factorio:latest
     ports:
-      - "34197:34197/udp"
-      - "27015:27015/tcp"
+     - 34197:34197/udp
+     - 27015:27015/tcp
     volumes:
-      - ./data:/factorio
-      - ./backups:/backups
-      - ./server-settings.json:/server-settings.json
+     - "./data:/factorio"
     environment:
-      - DLC_SPACE_AGE=false
+     - PUID=1000
+     - PGID=1000
+     - PRESET=rich-resources
+     - DLC_SPACE_AGE=true
     restart: always
     stop_grace_period: 2m
     cpus: 1.7
