@@ -1,7 +1,7 @@
 version: "2"
 services:
   factorio:
-    image: factoriotools/factorio:latest-rootless
+    image: ghcr.nju.edu.cn/jahands/factorio-docker:2.0.76-rootless
     ports:
      - 34197:34197/udp
     volumes:
