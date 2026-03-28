@@ -3,7 +3,7 @@ version: "2"
 services:
   desynced:
     build: .
-    container_name: desynced-server
+    container_name: desynced
     restart: always
     environment:
       SERVER_NAME: Endfield
