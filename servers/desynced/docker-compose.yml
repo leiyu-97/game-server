@@ -10,12 +10,7 @@ services:
       INSTALL_PATH: /desynced/server
       WORLD_NAME: Talos2
       MAX_PLAYERS: 4
-      VISIBILITY: private
-      RUN_WITHOUT_PLAYERS: false
-      RESOURCE_RICHNESS: 4
-      BLIGHT_THRESHOLD: 0.1
-      PLATEAU_LEVEL: 0.1
-      PEACEFUL_MODE: 2
+      RESOURCE_INF: true
       SERVER_PASSWORD: ${SERVER_PASSWORD}
     ports:
       - "10099:10099/udp"
