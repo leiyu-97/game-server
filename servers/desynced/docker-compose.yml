@@ -16,7 +16,7 @@ services:
       - "10099:10099/udp"
     volumes:
       - ./data:/desynced/server
-      - ./save:/save
+      - ./saves:/saves
       - ./cache:/root/.wine
     stop_grace_period: 2m
     cpus: 1.7

@@ -35,7 +35,7 @@ if [[ ! -f "$SERVER_EXE" ]]; then
 fi
 
 session_settings="{'name': '$SERVER_NAME', 'players':$MAX_PLAYERS, 'visibility': '$VISIBILITY', 'run_without_players': $RUN_WITHOUT_PLAYERS, 'password': '$SERVER_PASSWORD'}"
-game_settings="{'resource_richness': $RESOURCE_AMT, 'resource_inf': $RESOURCE_INF, 'blight_threshold': $BLIGHT_THRESHOLD, 'plateau_level': $PLATEAU_LEVEL, 'peaceful': $PEACEFUL_MODE}"
+game_settings="{'resource_amt': $RESOURCE_AMT, 'resource_inf': $RESOURCE_INF, 'blight_threshold': $BLIGHT_THRESHOLD, 'plateau_level': $PLATEAU_LEVEL, 'peaceful': $PEACEFUL_MODE}"
 
 xvfb-run -a \
   wine $INSTALL_PATH/Desynced/Binaries/Win64/DesyncedServer.exe \
