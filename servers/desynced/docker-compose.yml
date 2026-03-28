@@ -11,6 +11,7 @@ services:
       WORLD_NAME: Talos2
       MAX_PLAYERS: 4
       RESOURCE_INF: true
+      RESOURCE_AMT: 2
       SERVER_PASSWORD: ${SERVER_PASSWORD}
     ports:
       - "10099:10099/udp"
