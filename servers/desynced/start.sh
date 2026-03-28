@@ -25,6 +25,6 @@ game_settings="{'resource_richness': $RESOURCE_RICHNESS, 'blight_threshold': $BL
 
 xvfb-run -a \
   wine $INSTALL_PATH/Desynced/Binaries/Win64/DesyncedServer.exe \
-  "$WORLD_NAME.desynced" \
+  "/save/$WORLD_NAME.desynced" \
   -SessionSettings="$session_settings" \
   -GameSettings="$game_settings"
