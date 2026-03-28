@@ -12,10 +12,11 @@ services:
       MAX_PLAYERS: 4
       VISIBILITY: private
       RUN_WITHOUT_PLAYERS: false
-      RESOURCE_RICHNESS: 2
-      BLIGHT_THRESHOLD: 1
-      PLATEAU_LEVEL: 0.2
+      RESOURCE_RICHNESS: 4
+      BLIGHT_THRESHOLD: 0.1
+      PLATEAU_LEVEL: 0.1
       PEACEFUL_MODE: 2
+      SERVER_PASSWORD: ${SERVER_PASSWORD}
     ports:
       - "10099:10099/udp"
     volumes:

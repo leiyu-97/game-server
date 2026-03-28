@@ -20,7 +20,7 @@ if [[ ! -f "$SERVER_EXE" ]]; then
   exit 3
 fi
 
-session_settings="{'name': '$SERVER_NAME', 'players':$MAX_PLAYERS, 'visibility': '$VISIBILITY', 'run_without_players': $RUN_WITHOUT_PLAYERS}"
+session_settings="{'name': '$SERVER_NAME', 'players':$MAX_PLAYERS, 'visibility': '$VISIBILITY', 'run_without_players': $RUN_WITHOUT_PLAYERS, 'password': '$SERVER_PASSWORD'}"
 game_settings="{'resource_richness': $RESOURCE_RICHNESS, 'blight_threshold': $BLIGHT_THRESHOLD, 'plateau_level': $PLATEAU_LEVEL, 'peaceful': $PEACEFUL_MODE}"
 
 xvfb-run -a \
