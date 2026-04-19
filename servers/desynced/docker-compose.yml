@@ -17,9 +17,9 @@ services:
     ports:
       - "10099:10099/udp"
     volumes:
-      - ./data:/desynced/server
-      - ./saves:/saves
-      - ./cache:/root/.wine
+      - ./data:/desynced/server:Z
+      - ./saves:/saves:Z
+      - ./cache:/root/.wine:Z
     stop_grace_period: 2m
     cpus: 1.7
     mem_limit: 14g
