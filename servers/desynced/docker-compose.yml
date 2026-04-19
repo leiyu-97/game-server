@@ -13,7 +13,6 @@ services:
       RESOURCE_INF: true
       RESOURCE_AMT: 2
       SERVER_PASSWORD: ${SERVER_PASSWORD}
-      RUN_WITHOUT_PLAYERS: true
     ports:
       - "10099:10099/udp"
     volumes:
