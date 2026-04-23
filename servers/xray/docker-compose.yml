@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  xray:
+    image: teddysun/xray:latest
+    container_name: xray
+    ports:
+      - "10808:10808/tcp"
+      - "10809:10809/tcp"
+    volumes:
+      - ./config.json:/etc/xray/config.json:ro
+    restart: always
+    stop_grace_period: 30s

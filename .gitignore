@@ -1,2 +1,4 @@
 .env
 .temp_env
+servers/dsp/data/mod-cache/
+servers/dsp/data/mod-cache.tar.gz
