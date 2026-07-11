@@ -1,5 +1,5 @@
-# Copy this file to clash.yaml and replace the example fields with a real node.
-# `CLASH_PROXY_NAME` in .env must exactly match this node's name.
+# Copy this file to clash.yaml and replace the example fields with real nodes.
+# PROJECT_PROXY uses the first node in the top-level `proxies` list by default.
 proxies:
   - name: example-vless-reality
     type: vless

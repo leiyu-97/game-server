@@ -56,11 +56,7 @@ DIR=${DIR}
 ROOT_DIR=${ROOT_DIR}
 EOF
 
-COMPOSE_ENV_FILES=(--env-file ./.env --env-file ./.temp_env)
-if [ -f "$DIR/.env" ]; then
-  COMPOSE_ENV_FILES+=(--env-file "$DIR/.env")
-fi
-COMMON_PARAMS=("${COMPOSE_ENV_FILES[@]}" -p "$NAME" -f "$DIR/docker-compose.yml")
+COMMON_PARAMS=(--env-file ./.env --env-file ./.temp_env -p "$NAME" -f "$DIR/docker-compose.yml")
 
 case "$CMD" in
 start)

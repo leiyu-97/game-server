@@ -10,17 +10,18 @@ Clash node; every other request uses the local `DIRECT` connection.
 
 ## Configure and start
 
-1. Copy the templates and fill in the real Clash node and node name:
+1. Copy the template and fill in real Clash nodes:
 
    ```sh
    cd servers/xray
    cp clash.example.yaml clash.yaml
-   cp .env.example .env
    ```
 
-   `CLASH_PROXY_NAME` must name an entry in Clash's top-level `proxies` list,
-   not a proxy group. Any node type supported by the installed Mihomo release is
-   accepted, including VLESS/REALITY, VMess, Trojan, Shadowsocks and Hysteria.
+   Any node type supported by the installed Mihomo release is accepted, including
+   VLESS/REALITY, VMess, Trojan, Shadowsocks and Hysteria. `PROJECT_PROXY`
+   contains every entry in the top-level `proxies` list and uses the first entry
+   by default. Move the preferred node to the top and restart the service to
+   change that default.
 
 2. Maintain `proxy-whitelist.yaml`, a native Clash/Mihomo `classical` rule
    provider. For example, `DOMAIN-SUFFIX,github.com` covers GitHub and all of
@@ -37,9 +38,9 @@ The generated Mihomo configuration is written to `runtime/config.yaml`; do not
 edit it directly. Restart the service after changing either `clash.yaml` or the
 whitelist.
 
-The proxy ports bind to `127.0.0.1` by default because the inbounds have no
-authentication. To let another trusted device connect, set
-`XRAY_BIND_ADDRESS=0.0.0.0` and restrict access with the host firewall.
+The proxy ports are fixed to `127.0.0.1` because the inbounds have no
+authentication. Change the host-side bindings in `docker-compose.yml` only if
+access is protected by a firewall or trusted private network.
 
 ## Use the proxy after startup
 

@@ -39,19 +39,19 @@ def validate_whitelist(path: Path) -> None:
         )
 
 
-def select_proxy(config: dict[str, Any], proxy_name: str) -> None:
+def proxy_names(config: dict[str, Any]) -> list[str]:
     proxies = config.get("proxies")
     if not isinstance(proxies, list):
         raise ConfigurationError("Clash config must contain a top-level 'proxies' list.")
     names = [proxy.get("name") for proxy in proxies if isinstance(proxy, dict) and isinstance(proxy.get("name"), str)]
-    if proxy_name not in names:
-        available = ", ".join(names) or "none"
-        raise ConfigurationError(
-            f"CLASH_PROXY_NAME '{proxy_name}' was not found in Clash proxies. Available proxies: {available}"
-        )
+    if not names:
+        raise ConfigurationError("Clash config must contain at least one named proxy.")
+    if len(names) != len(set(names)):
+        raise ConfigurationError("Clash proxy names must be unique.")
+    return names
 
 
-def build_config(clash_config: dict[str, Any], proxy_name: str) -> dict[str, Any]:
+def build_config(clash_config: dict[str, Any], proxies: list[str]) -> dict[str, Any]:
     proxy_groups = clash_config.get("proxy-groups", [])
     if not isinstance(proxy_groups, list):
         raise ConfigurationError("'proxy-groups' must be a list when present in Clash config.")
@@ -85,7 +85,7 @@ def build_config(clash_config: dict[str, Any], proxy_name: str) -> dict[str, Any
             "log-level": "warning",
             "proxy-groups": [
                 *proxy_groups,
-                {"name": PROJECT_PROXY_GROUP, "type": "select", "proxies": [proxy_name]},
+                {"name": PROJECT_PROXY_GROUP, "type": "select", "proxies": proxies},
             ],
             "rule-providers": managed_rule_providers,
             "rules": [
@@ -102,19 +102,15 @@ def main() -> int:
         clash_path = Path(os.environ.get("CLASH_CONFIG_PATH", "/config/clash.yaml"))
         whitelist_path = Path(os.environ.get("PROXY_WHITELIST_PATH", "/config/proxy-whitelist.yaml"))
         output_path = Path(os.environ.get("MIHOMO_CONFIG_PATH", "/runtime/config.yaml"))
-        proxy_name = os.environ.get("CLASH_PROXY_NAME", "").strip()
-        if not proxy_name:
-            raise ConfigurationError("CLASH_PROXY_NAME is required.")
-
         clash_config = load_yaml(clash_path, "Clash config")
-        select_proxy(clash_config, proxy_name)
+        proxies = proxy_names(clash_config)
         validate_whitelist(whitelist_path)
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(
-            yaml.safe_dump(build_config(clash_config, proxy_name), allow_unicode=True, sort_keys=False),
+            yaml.safe_dump(build_config(clash_config, proxies), allow_unicode=True, sort_keys=False),
             encoding="utf-8",
         )
-        print(f"Generated {output_path} from Clash proxy '{proxy_name}'.")
+        print(f"Generated {output_path} with {len(proxies)} Clash proxy choice(s).")
     except ConfigurationError as exc:
         print(f"Configuration error: {exc}", file=sys.stderr)
         return 2
