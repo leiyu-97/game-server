@@ -11,5 +11,13 @@ services:
       - ./config.yaml:/etc/mihomo/config.yaml:ro
       - ./clash.yaml:/etc/mihomo/clash.yaml:ro
       - ./proxy-whitelist.yaml:/etc/mihomo/proxy-whitelist.yaml:ro
+      - ./steam-download-direct.yaml:/etc/mihomo/steam-download-direct.yaml:ro
+    networks:
+      - game-server-proxy
     restart: unless-stopped
     stop_grace_period: 30s
+
+networks:
+  game-server-proxy:
+    external: true
+    name: game-server-proxy

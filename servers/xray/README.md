@@ -8,6 +8,13 @@ exposes a SOCKS5 proxy on port `10808` and an HTTP proxy on port `10809`.
 Requests matching the project-owned `proxy-whitelist.yaml` use one selected
 Clash node; every other request uses the local `DIRECT` connection.
 
+SteamCMD login and update commands in Palworld, Desynced, and the DSP installer
+use `http://xray:10809` through the shared `game-server-proxy` Docker network.
+Steam content CDNs are bypassed twice: each SteamCMD process has matching
+`NO_PROXY` entries, and [`steam-download-direct.yaml`](steam-download-direct.yaml)
+is evaluated before the proxy whitelist. Game payload downloads therefore use
+the direct connection.
+
 ## Configure and start
 
 1. Copy the template and fill in real Clash nodes:
@@ -30,7 +37,7 @@ Clash node; every other request uses the local `DIRECT` connection.
 3. Start from the repository root:
 
    ```sh
-   ./game-server.sh -n xray start
+   ./proxy.sh start
    ```
 
 [`config.yaml`](config.yaml) is the committed static Mihomo configuration.

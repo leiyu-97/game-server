@@ -13,8 +13,20 @@ BLIGHT_THRESHOLD="${BLIGHT_THRESHOLD:-0.1}"
 PLATEAU_LEVEL="${PLATEAU_LEVEL:-0.1}"
 PEACEFUL_MODE="${PEACEFUL_MODE:-2}"
 RESOURCE_INF="${RESOURCE_INF:-false}"
+STEAM_PROXY_URL=http://xray:10809
+STEAM_CONTENT_NO_PROXY=localhost,127.0.0.1,::1,steamcontent.com,.steamcontent.com,steamcdn-a.akamaihd.net,.steamcdn-a.akamaihd.net,steamcdn.com,.steamcdn.com,steamstatic.com,.steamstatic.com
 
-steamcmd \
+steamcmd_with_proxy() {
+  HTTP_PROXY="$STEAM_PROXY_URL" \
+  HTTPS_PROXY="$STEAM_PROXY_URL" \
+  http_proxy="$STEAM_PROXY_URL" \
+  https_proxy="$STEAM_PROXY_URL" \
+  NO_PROXY="$STEAM_CONTENT_NO_PROXY" \
+  no_proxy="$STEAM_CONTENT_NO_PROXY" \
+  steamcmd "$@"
+}
+
+steamcmd_with_proxy \
   +@sSteamCmdForcePlatformType windows \
   +force_install_dir "$INSTALL_PATH" \
   +login anonymous \

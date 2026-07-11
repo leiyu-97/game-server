@@ -7,6 +7,7 @@ XRAY_DIR="$ROOT_DIR/servers/xray"
 IMAGE="metacubex/mihomo:v1.19.27"
 IMAGE_ARCHIVE="$XRAY_DIR/images/mihomo-v1.19.27-linux-amd64.tar"
 DOCKER_DROPIN="/etc/systemd/system/docker.service.d/game-server-proxy.conf"
+PROXY_NETWORK="game-server-proxy"
 COMPOSE=(docker compose -p xray -f "$XRAY_DIR/docker-compose.yml")
 
 log() { printf '[proxy] %s\n' "$*"; }
@@ -41,6 +42,11 @@ start_proxy() {
   require_x86_64
   [[ -f "$XRAY_DIR/clash.yaml" ]] || fail "Missing $XRAY_DIR/clash.yaml; copy and configure clash.example.yaml first."
   load_image
+
+  if ! docker network inspect "$PROXY_NETWORK" >/dev/null 2>&1; then
+    log "Creating shared Docker network $PROXY_NETWORK"
+    docker network create "$PROXY_NETWORK" >/dev/null
+  fi
 
   local image_architecture
   image_architecture="$(docker image inspect "$IMAGE" --format '{{.Architecture}}')"
@@ -89,6 +95,7 @@ Usage: ./proxy.sh <command>
 
 Commands:
   start          Load the bundled amd64 Mihomo image if needed and start the proxy.
+  restart        Recreate the proxy container and apply its latest Compose/config files.
   daemon-enable  Start the proxy, then make Docker image pulls use it.
   daemon-disable Remove only this project's Docker systemd proxy drop-in.
   stop           Stop the proxy container.
@@ -98,6 +105,11 @@ EOF
 
 case "${1:-}" in
   start)
+    start_proxy
+    ;;
+  restart)
+    log "Recreating Mihomo proxy"
+    "${COMPOSE[@]}" down
     start_proxy
     ;;
   daemon-enable)

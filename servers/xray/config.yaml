@@ -21,6 +21,11 @@ proxy-groups:
       - local-clash
 
 rule-providers:
+  steam-game-downloads:
+    type: file
+    behavior: classical
+    format: yaml
+    path: ./steam-download-direct.yaml
   project-proxy-whitelist:
     type: file
     behavior: classical
@@ -28,5 +33,6 @@ rule-providers:
     path: ./proxy-whitelist.yaml
 
 rules:
+  - RULE-SET,steam-game-downloads,DIRECT
   - RULE-SET,project-proxy-whitelist,PROJECT_PROXY
   - MATCH,DIRECT

@@ -96,6 +96,20 @@ else
   fi
 fi
 
+steam_proxy_docker_args=(
+  --network game-server-proxy
+  -e HTTP_PROXY=http://xray:10809
+  -e HTTPS_PROXY=http://xray:10809
+  -e http_proxy=http://xray:10809
+  -e https_proxy=http://xray:10809
+  -e NO_PROXY=localhost,127.0.0.1,::1,steamcontent.com,.steamcontent.com,steamcdn-a.akamaihd.net,.steamcdn-a.akamaihd.net,steamcdn.com,.steamcdn.com,steamstatic.com,.steamstatic.com
+  -e no_proxy=localhost,127.0.0.1,::1,steamcontent.com,.steamcontent.com,steamcdn-a.akamaihd.net,.steamcdn-a.akamaihd.net,steamcdn.com,.steamcdn.com,steamstatic.com,.steamstatic.com
+)
+
+if ! docker network inspect game-server-proxy >/dev/null 2>&1; then
+  fail "Docker network game-server-proxy is missing. Run ./proxy.sh start first."
+fi
+
 if [[ -z "$STEAM_USER" ]]; then
   fail "STEAM_USER is required. Set it in $REPO_ROOT/.env or export it before running install-game.sh."
 fi
@@ -118,7 +132,7 @@ fi
 
 if [[ "$FORCE_UPDATE" == "1" ]]; then
   log "Updating DSP via SteamCMD ..."
-  docker run --rm "${docker_tty_args[@]}" "${docker_platform_args[@]}" \
+  docker run --rm "${docker_tty_args[@]}" "${docker_platform_args[@]}" "${steam_proxy_docker_args[@]}" \
     -v "$SERVER_DIR:/mnt/server" \
     steamcmd/steamcmd:ubuntu-24 \
     /usr/games/steamcmd \

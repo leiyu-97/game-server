@@ -20,7 +20,8 @@ Usage: ./game-server.sh [option] <command>
 
 ## Proxy
 
-Run `./proxy.sh start` to load and start the project-local Mihomo proxy. Run
+Run `./proxy.sh start` to load and start the project-local Mihomo proxy; use
+`./proxy.sh restart` to recreate it after changing its configuration. Run
 `./proxy.sh daemon-enable` to additionally configure Docker's daemon, through a
 reversible project-named systemd drop-in, so image pulls use that proxy. Remove
 the setting with `./proxy.sh daemon-disable`.

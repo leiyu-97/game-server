@@ -9,6 +9,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 IMAGE="metacubex/mihomo:v1.19.27"
 ARCHIVE="$SCRIPT_DIR/images/mihomo-v1.19.27-linux-amd64.tar"
+PROXY_NETWORK=game-server-proxy
 
 case "$(uname -m)" in
   x86_64 | amd64) ;;
@@ -20,6 +21,11 @@ esac
 
 log "Loading $ARCHIVE"
 docker load -i "$ARCHIVE"
+
+if ! docker network inspect "$PROXY_NETWORK" >/dev/null 2>&1; then
+  log "Creating shared Docker network $PROXY_NETWORK"
+  docker network create "$PROXY_NETWORK" >/dev/null
+fi
 
 loaded_architecture="$(docker image inspect "$IMAGE" --format '{{.Architecture}}')"
 [[ "$loaded_architecture" == "amd64" ]] || fail "Loaded image architecture is $loaded_architecture, expected amd64."

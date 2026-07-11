@@ -1,0 +1,7 @@
+# Steam game payload/CDN traffic must always bypass PROJECT_PROXY.
+# This rule precedes the proxy whitelist in config.yaml.
+payload:
+  - DOMAIN-SUFFIX,steamcontent.com
+  - DOMAIN-SUFFIX,steamcdn-a.akamaihd.net
+  - DOMAIN-SUFFIX,steamcdn.com
+  - DOMAIN-SUFFIX,steamstatic.com

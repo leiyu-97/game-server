@@ -13,6 +13,9 @@ services:
       RESOURCE_INF: true
       RESOURCE_AMT: 2
       SERVER_PASSWORD: ${SERVER_PASSWORD}
+    networks:
+      - default
+      - game-server-proxy
     ports:
       - "10099:10099/udp"
     volumes:
@@ -43,3 +46,8 @@ services:
       SCHEDULE: '0 1 * * *'
       MAX_BACKUPS: 14
     user: "root:root"
+
+networks:
+  game-server-proxy:
+    external: true
+    name: game-server-proxy
