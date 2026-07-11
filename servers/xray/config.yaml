@@ -1,7 +1,10 @@
 # Static Mihomo configuration. Nodes come from clash.yaml; project routing lives here.
 socks-port: 10808
 port: 10809
-allow-lan: false
+# Docker forwards host loopback connections through its bridge network, so Mihomo
+# must accept LAN-originated connections. docker-compose.yml still publishes the
+# ports only on 127.0.0.1, keeping the proxy private to this host.
+allow-lan: true
 bind-address: '*'
 mode: rule
 log-level: warning

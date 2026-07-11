@@ -68,7 +68,9 @@ setting takes effect. Remove it at any time with:
 ```
 
 The proxy ports are fixed to `127.0.0.1` because the inbounds have no
-authentication. Change the host-side bindings in `docker-compose.yml` only if
+authentication. Mihomo permits Docker bridge connections so that Docker daemon
+requests can reach the proxy, but the host-side binding still prevents external
+network access. Change the host-side bindings in `docker-compose.yml` only if
 access is protected by a firewall or trusted private network.
 
 ## Use the proxy after startup
