@@ -1,1 +1,3 @@
-config.json
+clash.yaml
+runtime/*
+!runtime/.gitkeep

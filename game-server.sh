@@ -56,30 +56,34 @@ DIR=${DIR}
 ROOT_DIR=${ROOT_DIR}
 EOF
 
-COMMON_PARAMS="--env-file ./.env -p $NAME -f $DIR/docker-compose.yml"
+COMPOSE_ENV_FILES=(--env-file ./.env --env-file ./.temp_env)
+if [ -f "$DIR/.env" ]; then
+  COMPOSE_ENV_FILES+=(--env-file "$DIR/.env")
+fi
+COMMON_PARAMS=("${COMPOSE_ENV_FILES[@]}" -p "$NAME" -f "$DIR/docker-compose.yml")
 
 case "$CMD" in
 start)
-  docker compose $COMMON_PARAMS up -d --build
-  docker compose $COMMON_PARAMS logs -t -f
+  docker compose "${COMMON_PARAMS[@]}" up -d --build
+  docker compose "${COMMON_PARAMS[@]}" logs -t -f
   ;;
 stop)
-  docker compose $COMMON_PARAMS down
+  docker compose "${COMMON_PARAMS[@]}" down
   ;;
 restart)
-  docker compose $COMMON_PARAMS down
-  docker compose $COMMON_PARAMS up -d --build
-  docker compose $COMMON_PARAMS logs -t -f
+  docker compose "${COMMON_PARAMS[@]}" down
+  docker compose "${COMMON_PARAMS[@]}" up -d --build
+  docker compose "${COMMON_PARAMS[@]}" logs -t -f
   ;;
 remove)
-  docker compose $COMMON_PARAMS down
-  docker image rm $(docker compose $COMMON_PARAMS images --quiet)
+  docker compose "${COMMON_PARAMS[@]}" down
+  docker image rm $(docker compose "${COMMON_PARAMS[@]}" images --quiet)
   ;;
 shell)
   docker exec -ti $NAME /bin/bash
   ;;
 logs)
-  docker compose $COMMON_PARAMS logs -t -f
+  docker compose "${COMMON_PARAMS[@]}" logs -t -f
   ;;
 *)
   usage

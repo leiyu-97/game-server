@@ -7,7 +7,7 @@
 
 ```shell
 Usage: ./game-server.sh [option] <command>
-  -n, --name                  服务名（palworld, teamspeak）
+  -n, --name                  服务名（palworld, teamspeak, xray）
   -h, --help                  帮助
 
 ./game-server.sh start             启动
