@@ -17,3 +17,10 @@ Usage: ./game-server.sh [option] <command>
 ./game-server.sh shell             进入容器
 ./game-server.sh remove            清除镜像
 ```
+
+## Proxy
+
+Run `./proxy.sh start` to load and start the project-local Mihomo proxy. Run
+`./proxy.sh daemon-enable` to additionally configure Docker's daemon, through a
+reversible project-named systemd drop-in, so image pulls use that proxy. Remove
+the setting with `./proxy.sh daemon-disable`.

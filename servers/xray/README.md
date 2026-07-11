@@ -50,6 +50,23 @@ The script verifies an x86_64 host, loads the local image archive, verifies its
 architecture, and starts the service. It avoids downloading the Mihomo image
 from Docker Hub during deployment.
 
+## Docker image pulls
+
+From the repository root, run:
+
+```sh
+./proxy.sh daemon-enable
+```
+
+This starts Mihomo and installs a dedicated, reversible Docker systemd drop-in
+at `/etc/systemd/system/docker.service.d/game-server-proxy.conf`. Docker image
+pulls then use `http://127.0.0.1:10809`; the script restarts Docker so the
+setting takes effect. Remove it at any time with:
+
+```sh
+./proxy.sh daemon-disable
+```
+
 The proxy ports are fixed to `127.0.0.1` because the inbounds have no
 authentication. Change the host-side bindings in `docker-compose.yml` only if
 access is protected by a firewall or trusted private network.
