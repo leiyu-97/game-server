@@ -1,0 +1,29 @@
+# Static Mihomo configuration. Nodes come from clash.yaml; project routing lives here.
+socks-port: 10808
+port: 10809
+allow-lan: false
+bind-address: '*'
+mode: rule
+log-level: warning
+
+proxy-providers:
+  local-clash:
+    type: file
+    path: ./clash.yaml
+
+proxy-groups:
+  - name: PROJECT_PROXY
+    type: select
+    use:
+      - local-clash
+
+rule-providers:
+  project-proxy-whitelist:
+    type: file
+    behavior: classical
+    format: yaml
+    path: ./proxy-whitelist.yaml
+
+rules:
+  - RULE-SET,project-proxy-whitelist,PROJECT_PROXY
+  - MATCH,DIRECT

@@ -1,9 +1,9 @@
 # Clash-compatible selective proxy
 
-The `xray` service now runs [Mihomo](https://github.com/MetaCubeX/mihomo), the
-actively maintained Clash Meta runtime. It reads a standard Clash YAML directly,
-so nodes are not converted to Xray JSON. The service exposes a SOCKS5 proxy on
-port `10808` and an HTTP proxy on port `10809`.
+The `xray` service runs [Mihomo](https://github.com/MetaCubeX/mihomo), the
+actively maintained Clash Meta runtime. It directly loads the top-level
+`proxies` list in `clash.yaml`; nodes are not converted to Xray JSON. The service
+exposes a SOCKS5 proxy on port `10808` and an HTTP proxy on port `10809`.
 
 Requests matching the project-owned `proxy-whitelist.yaml` use one selected
 Clash node; every other request uses the local `DIRECT` connection.
@@ -19,9 +19,8 @@ Clash node; every other request uses the local `DIRECT` connection.
 
    Any node type supported by the installed Mihomo release is accepted, including
    VLESS/REALITY, VMess, Trojan, Shadowsocks and Hysteria. `PROJECT_PROXY`
-   contains every entry in the top-level `proxies` list and uses the first entry
-   by default. Move the preferred node to the top and restart the service to
-   change that default.
+   contains the nodes from this file and uses the first entry by default. Move
+   the preferred node to the top and restart the service to change that default.
 
 2. Maintain `proxy-whitelist.yaml`, a native Clash/Mihomo `classical` rule
    provider. For example, `DOMAIN-SUFFIX,github.com` covers GitHub and all of
@@ -34,9 +33,22 @@ Clash node; every other request uses the local `DIRECT` connection.
    ./game-server.sh -n xray start
    ```
 
-The generated Mihomo configuration is written to `runtime/config.yaml`; do not
-edit it directly. Restart the service after changing either `clash.yaml` or the
-whitelist.
+[`config.yaml`](config.yaml) is the committed static Mihomo configuration.
+Restart the service after changing either `clash.yaml` or the whitelist.
+
+### Offline deployment on x86_64 Linux
+
+The repository includes `images/mihomo-v1.19.27-linux-amd64.tar`. Copy the
+repository to the server, configure `clash.yaml`, then run:
+
+```sh
+chmod +x servers/xray/load-image.sh
+./servers/xray/load-image.sh
+```
+
+The script verifies an x86_64 host, loads the local image archive, verifies its
+architecture, and starts the service. It avoids downloading the Mihomo image
+from Docker Hub during deployment.
 
 The proxy ports are fixed to `127.0.0.1` because the inbounds have no
 authentication. Change the host-side bindings in `docker-compose.yml` only if
