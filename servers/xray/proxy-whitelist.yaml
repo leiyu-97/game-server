@@ -1,0 +1,28 @@
+# This is a native Clash/Mihomo classical rule provider.
+# Each payload entry that matches is sent to PROJECT_PROXY; all other traffic is direct.
+payload:
+  # Project dependencies that need access through the selected Clash node.
+  - DOMAIN-SUFFIX,github.com
+  - DOMAIN-SUFFIX,githubusercontent.com
+  - DOMAIN-SUFFIX,githubassets.com
+  - DOMAIN-SUFFIX,ghcr.io
+  - DOMAIN-SUFFIX,steamcommunity.com
+  - DOMAIN-SUFFIX,steampowered.com
+  - DOMAIN-SUFFIX,steamstatic.com
+  - DOMAIN-SUFFIX,steamcontent.com
+  - DOMAIN-SUFFIX,steamserver.net
+  - DOMAIN-SUFFIX,thunderstore.io
+
+  # Common container registries and their authentication/CDN endpoints.
+  - DOMAIN-SUFFIX,docker.io
+  - DOMAIN,registry-1.docker.io
+  - DOMAIN,auth.docker.io
+  - DOMAIN,production.cloudflare.docker.com
+  - DOMAIN-SUFFIX,quay.io
+  - DOMAIN-SUFFIX,registry.gitlab.com
+  - DOMAIN-SUFFIX,gcr.io
+  - DOMAIN,registry.k8s.io
+  - DOMAIN-SUFFIX,mcr.microsoft.com
+  - DOMAIN,data.mcr.microsoft.com
+  - DOMAIN,public.ecr.aws
+  - DOMAIN-SUFFIX,cgr.dev

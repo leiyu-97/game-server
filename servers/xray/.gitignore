@@ -1,0 +1,3 @@
+clash.yaml
+runtime/*
+!runtime/.gitkeep

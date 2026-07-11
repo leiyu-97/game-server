@@ -1,0 +1,32 @@
+services:
+  xray-config:
+    build:
+      context: .
+    container_name: xray-config
+    environment:
+      CLASH_CONFIG_PATH: /config/clash.yaml
+      CLASH_PROXY_NAME: ${CLASH_PROXY_NAME:?Set CLASH_PROXY_NAME to a concrete proxy name from clash.yaml}
+      PROXY_WHITELIST_PATH: /config/proxy-whitelist.yaml
+      MIHOMO_CONFIG_PATH: /runtime/config.yaml
+    volumes:
+      - ./clash.yaml:/config/clash.yaml:ro
+      - ./proxy-whitelist.yaml:/config/proxy-whitelist.yaml:ro
+      - ./runtime:/runtime
+    restart: "no"
+
+  xray:
+    image: metacubex/mihomo:v1.19.27
+    container_name: xray
+    command: ["-d", "/etc/mihomo", "-f", "/etc/mihomo/config.yaml"]
+    depends_on:
+      xray-config:
+        condition: service_completed_successfully
+    ports:
+      - "${XRAY_BIND_ADDRESS:-127.0.0.1}:10808:10808/tcp"
+      - "${XRAY_BIND_ADDRESS:-127.0.0.1}:10808:10808/udp"
+      - "${XRAY_BIND_ADDRESS:-127.0.0.1}:10809:10809/tcp"
+    volumes:
+      - ./runtime:/etc/mihomo:ro
+      - ./proxy-whitelist.yaml:/etc/mihomo/proxy-whitelist.yaml:ro
+    restart: unless-stopped
+    stop_grace_period: 30s

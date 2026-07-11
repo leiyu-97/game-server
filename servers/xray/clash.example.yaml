@@ -1,0 +1,17 @@
+# Copy this file to clash.yaml and replace the example fields with a real node.
+# `CLASH_PROXY_NAME` in .env must exactly match this node's name.
+proxies:
+  - name: example-vless-reality
+    type: vless
+    server: example.com
+    port: 443
+    uuid: 00000000-0000-0000-0000-000000000000
+    network: tcp
+    udp: true
+    tls: true
+    flow: xtls-rprx-vision
+    servername: www.example.com
+    client-fingerprint: chrome
+    reality-opts:
+      public-key: REPLACE_ME_PUBLIC_KEY
+      short-id: REPLACE_ME_SHORT_ID
