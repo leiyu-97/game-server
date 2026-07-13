@@ -3,42 +3,19 @@ services:
     build:
       context: .
     container_name: dsp
+    restart: unless-stopped
 
     ports:
       - "8469:8469/tcp"
 
     environment:
-      WINEDEBUG: "-all"
-      # WINEDEBUG: "+seh,+error,+warn"
-
-      # Run ./servers/dsp/install-game.sh and ./servers/dsp/install-mods.sh on the host before starting the container.
-
-      # =========================================================
-      # DSP START MODE (choose ONE option!)
-      # =========================================================
-
-      # A) Load a specific save directly:
-      DSP_LOAD: "Tera"
-
-      # B) Load the latest save:
-      # DSP_LOAD_LATEST: "1"
-
-      # C) Start a new game (peace mode):
-      # DSP_NEWGAME_SEED: "123456"
-      # DSP_NEWGAME_STARCOUNT: "64"
-      # DSP_NEWGAME_RESOURCE_MULT: "1.0"
-
-      # D) Start a new game using Nebula config:
-      # DSP_NEWGAME_CFG: "1"
-
-      # E) Start a new game with vanilla defaults:
-      # DSP_NEWGAME_DEFAULT: "1"
-
-      # Optional: set UPS (5–240)
-      # DSP_UPS: "60"
+      STEAM_USER: ${STEAM_USER:-}
+      STEAM_PASS: ${STEAM_PASS:-}
 
     volumes:
       - ./data:/data
 
-    restart: on-failure:3
     stop_grace_period: 2m
+    cpus: 1.7
+    mem_limit: 14g
+    mem_swappiness: 100
